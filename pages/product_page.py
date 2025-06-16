@@ -1,5 +1,6 @@
 from selenium.common.exceptions import NoAlertPresentException
 import math
+from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from pages.locators import ProductPageLocators
 
@@ -33,3 +34,11 @@ class ProductPage(BasePage):
         product_price = self.driver.find_element(*ProductPageLocators.PRODUCT_PRICE).text
         basket_total = self.driver.find_element(*ProductPageLocators.BASKET_TOTAL).text
         assert product_price == basket_total, "Basket total doesn't match product price"
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(By.CSS_SELECTOR, ".alert-success"), \
+            "Success message is presented, but should not be"
+
+    def should_disappear_success_message(self):
+        assert self.is_disappeared(By.CSS_SELECTOR, ".alert-success"), \
+            "Success message did not disappear"
